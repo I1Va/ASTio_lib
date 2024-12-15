@@ -1,0 +1,6 @@
+[submodule "string_funcs"]
+	path = string_funcs
+	url = https://github.com/I1Va/string_funcs.git
+[submodule "graphviz_funcs"]
+	path = graphviz_funcs
+	url = https://github.com/I1Va/graphviz_funcs.git
