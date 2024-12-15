@@ -39,9 +39,13 @@ ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer)
         &left_son_exists, &right_son_exists
     );
 
-    size_t buf_len = strlen(bufer);
-    node_val.value.sval = get_new_str_ptr(storage, buf_len);
-    strncpy(node_val.value.sval, bufer, buf_len);
+    if (strcmp(bufer, "\0") == 0) {
+        node_val.value.sval = NULL;
+    } else {
+        size_t buf_len = strlen(bufer);
+        node_val.value.sval = get_new_str_ptr(storage, buf_len);
+        strncpy(node_val.value.sval, bufer, buf_len);
+    }
 
     ast_tree_elem_t *node = ast_tree_create_node(NULL, NULL, node_val);
 
@@ -63,11 +67,16 @@ void ast_tree_file_dump_rec(FILE* stream, ast_tree_elem_t *node, size_t indent) 
     // fprintf_n_chars(stream, ' ', indent);
     fprintf(stream, "{");
 
+    char *outp_sval = "\\0";
+    if (node->data.value.sval) {
+        outp_sval = node->data.value.sval;
+    }
+
     fprintf
     (
         stream, "%d %d %Ld %Lf %s %d %d\n",
         node->data.type,
-        node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval,
+        node->data.value.ival, node->data.value.lval, node->data.value.fval, outp_sval,
         node->left != NULL, node->right != NULL
     );
 
