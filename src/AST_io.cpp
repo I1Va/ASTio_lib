@@ -126,32 +126,31 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         return;
     }
 
-    snprintf(
-        bufer, BUFSIZ, "%d|%d|%Ld|%Lf|%s",
-        node->data.type,
-        node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval
-    );
+    // snprintf(
+    //     bufer, BUFSIZ, "%d|%d|%Ld|%Lf|%s",
+    //     node->data.type,
+    //     node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval
+    // );
 
-    // if (node->data.type == NODE_OP) {
-    //     char res = '\0';
-
-    //     switch (node->data.value.ival) {
-    //         case OP_ADD: res = '+'; break;
-    //         case OP_DIV: res = '/'; break;
-    //         case OP_MUL: res = '*'; break;
-    //         case OP_SUB: res = '-'; break;
-    //         default: res = '?'; break;
-    //     }
-    //     snprintf(bufer, BUFSIZ, "%c", res);
-    // } else if (node->data.type == NODE_NUM) {
-    //     snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
-    // } else if (node->data.type == NODE_VAR) {
-    //     snprintf(bufer, BUFSIZ, "x");
-    // } else if (node->data.type == NODE_FUNC) {
-    //     snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
-    // } else {
-    //     snprintf(bufer, BUFSIZ, "?");
-    // }
+    if (node->data.type == NODE_OP) {
+        char res = '\0';
+        switch (node->data.value.ival) {
+            case OP_ADD: res = '+'; break;
+            case OP_DIV: res = '/'; break;
+            case OP_MUL: res = '*'; break;
+            case OP_SUB: res = '-'; break;
+            default: res = '?'; break;
+        }
+        snprintf(bufer, BUFSIZ, "%c", res);
+    } else if (node->data.type == NODE_NUM) {
+        snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
+    } else if (node->data.type == NODE_VAR) {
+        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
+    } else if (node->data.type == NODE_FUNC) {
+        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
+    } else {
+        snprintf(bufer, BUFSIZ, "?");
+    }
 }
 
 size_t seg_char_cnt(char *left, char *right, char c) {
