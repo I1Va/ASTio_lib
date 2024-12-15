@@ -15,8 +15,10 @@ const char FUNC_COLOR[] = "#883060";
 const char OP_COLOR[] = "#04859D";
 
 
-ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer) {
-    assert(text != NULL);
+ast_tree_elem_t *load_ast_tree(char *src, str_storage_t **storage, char *bufer) {
+    assert(src);
+
+    static char *text = src;
 
     text = strchr(text, '{');
     if (text == NULL) {
@@ -38,6 +40,15 @@ ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer)
         &node_val.value.ival, &node_val.value.lval, &node_val.value.fval, bufer,
         &left_son_exists, &right_son_exists
     );
+
+    // printf
+    // (
+    //     "node: '%d %d %Ld %Lf %s %d %d'\n",
+    //     node_val.type,
+    //     node_val.value.ival, node_val.value.lval, node_val.value.fval, bufer,
+    //     left_son_exists, right_son_exists
+    // );
+
 
     if (strcmp(bufer, "\0") == 0) {
         node_val.value.sval = NULL;
@@ -67,7 +78,7 @@ void ast_tree_file_dump_rec(FILE* stream, ast_tree_elem_t *node, size_t indent) 
     // fprintf_n_chars(stream, ' ', indent);
     fprintf(stream, "{");
 
-    char *outp_sval = "\\0";
+    char *outp_sval = "\0";
     if (node->data.value.sval) {
         outp_sval = node->data.value.sval;
     }
