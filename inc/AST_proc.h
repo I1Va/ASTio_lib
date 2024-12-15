@@ -1,7 +1,6 @@
 #ifndef DIFF_TREE_H
 #define DIFF_TREE_H
 
-#include "graphviz_funcs.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
