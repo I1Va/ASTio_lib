@@ -1,5 +1,5 @@
-#ifndef DIFF_TREE_H
-#define DIFF_TREE_H
+#ifndef AST_PROC_H
+#define AST_PROC_H
 
 #include <string.h>
 #include <stdlib.h>
@@ -96,4 +96,4 @@ void mark_subtree(ast_tree_elem_t *root, ast_tree_t *tree);
 void ast_tree_dtor(ast_tree_t *tree);
 size_t place_subtrees_sz(ast_tree_elem_t *root);
 
-#endif // DIFF_TREE_H
+#endif // AST_PROC_H
