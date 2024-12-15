@@ -50,7 +50,7 @@ ast_tree_elem_t *load_ast_tree(char *src, str_storage_t **storage, char *bufer) 
     // );
 
 
-    if (strcmp(bufer, "\0") == 0) {
+    if (strcmp(bufer, "\\0") == 0) {
         node_val.value.sval = NULL;
     } else {
         size_t buf_len = strlen(bufer);
@@ -78,7 +78,7 @@ void ast_tree_file_dump_rec(FILE* stream, ast_tree_elem_t *node, size_t indent) 
     // fprintf_n_chars(stream, ' ', indent);
     fprintf(stream, "{");
 
-    char *outp_sval = "\0";
+    char *outp_sval = "\\0";
     if (node->data.value.sval) {
         outp_sval = node->data.value.sval;
     }
