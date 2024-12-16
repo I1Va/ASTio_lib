@@ -155,13 +155,15 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
     if (node->data.type == NODE_OP) {
         char res = '\0';
         switch (node->data.value.ival) {
-            case OP_ADD: res = '+'; break;
-            case OP_DIV: res = '/'; break;
-            case OP_MUL: res = '*'; break;
-            case OP_SUB: res = '-'; break;
+            case OP_ADD: snprintf(bufer, BUFSIZ, "+"); break;
+            case OP_DIV: snprintf(bufer, BUFSIZ, "/"); break;
+            case OP_SUB: snprintf(bufer, BUFSIZ, "-"); break;
+            case OP_MUL: snprintf(bufer, BUFSIZ, "*"); break;
+            case OP_IF: snprintf(bufer, BUFSIZ, "if"); break;
+            case OP_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
             default: res = '?'; break;
         }
-        snprintf(bufer, BUFSIZ, "%c", res);
+
     } else if (node->data.type == NODE_NUM) {
         snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
     } else if (node->data.type == NODE_VAR) {
