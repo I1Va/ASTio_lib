@@ -41,6 +41,9 @@ enum ast_token_t {
     AST_MORE_EQ = 19,
     AST_LESS_EQ = 20,
     AST_EQ = 21,
+
+    AST_INT = 22,
+    AST_FLOAT = 23,
 };
 
 enum node_types {
@@ -49,6 +52,12 @@ enum node_types {
     NODE_NUM = 2,
     NODE_OP = 3,
     NODE_FUNC = 4,
+    NODE_TYPE = 5,
+    NODE_ASSIGN = 6,
+    NODE_INIT = 7,
+    NODE_FUNC_ID = 8,
+    NODE_FUNC_BODY = 9,
+    NODE_GLOBAL = 10,
 };
 
 ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer);

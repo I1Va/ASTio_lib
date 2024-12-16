@@ -9,11 +9,24 @@
 
 #include <cstring>
 
-const char VAR_COLOR[] = "#d56050";
-const char NUM_COLOR[] = "#ddd660";
-const char FUNC_COLOR[] = "#883060";
-const char OP_COLOR[] = "#04859D";
 
+const char COLORS[][16] =
+{
+    "#aaf3b4",
+    "#f3b4aa",
+    "#e3c0ab",
+    "#aed768",
+    "#6c3483",
+    "#975abc",
+    "#e26e0e",
+    "#a1b5ac",
+    "#8d6e63",
+    "#d56050",
+    "#ddd660",
+    "#883060",
+    "#04859D",
+};
+const int COLORS_CNT = sizeof(COLORS) / sizeof(COLORS[0]);
 
 ast_tree_elem_t *load_ast_tree(char *src, str_storage_t **storage, char *bufer) {
     assert(src);
@@ -35,7 +48,7 @@ ast_tree_elem_t *load_ast_tree(char *src, str_storage_t **storage, char *bufer) 
 
     sscanf
     (
-        text, "%d %d %Ld %Lf %s %d %d",
+        text, "%d %d %Ld %Lg %s %d %d",
         &node_val.type,
         &node_val.value.ival, &node_val.value.lval, &node_val.value.fval, bufer,
         &left_son_exists, &right_son_exists
@@ -43,7 +56,7 @@ ast_tree_elem_t *load_ast_tree(char *src, str_storage_t **storage, char *bufer) 
 
     // printf
     // (
-    //     "node: '%d %d %Ld %Lf %s %d %d'\n",
+    //     "node: '%d %d %Ld %Lg %s %d %d'\n",
     //     node_val.type,
     //     node_val.value.ival, node_val.value.lval, node_val.value.fval, bufer,
     //     left_son_exists, right_son_exists
@@ -152,7 +165,7 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
     //     node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval
     // );
     if (node->data.type == NODE_NUM) {
-        snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
+        snprintf(bufer, BUFSIZ, "%Lg", node->data.value.fval);
     } else if (node->data.type == NODE_FUNC || node->data.type == NODE_VAR) {
         snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
     } else if (node->data.type == NODE_OP) {
@@ -168,16 +181,33 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
             case AST_MORE: snprintf(bufer, BUFSIZ, "more"); break;
             case AST_MORE_EQ: snprintf(bufer, BUFSIZ, "moq"); break;
             case AST_EQ: snprintf(bufer, BUFSIZ, "equal"); break;
-
+            case AST_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
             case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
             case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
             default: snprintf(bufer, BUFSIZ, "?"); break;
         }
+    } else if (node->data.type == NODE_ASSIGN) {
+        snprintf(bufer, BUFSIZ, "=");
+    } else if (node->data.type == NODE_INIT) {
+        snprintf(bufer, BUFSIZ, "init");
+    } else if (node->data.type == NODE_TYPE) {
+        switch (node->data.value.ival) {
+            case AST_INT: snprintf(bufer, BUFSIZ, "int"); break;
+            case AST_FLOAT: snprintf(bufer, BUFSIZ, "float"); break;
+        }
+
+    } else if (node->data.type == NODE_FUNC_ID) {
+        snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval);
+    } else if (node->data.type == NODE_FUNC_BODY) {
+        snprintf(bufer, BUFSIZ, "func_body");
+    } else if (node->data.type == NODE_GLOBAL) {
+        snprintf(bufer, BUFSIZ, "GLOBAL_SPACE");
     } else {
         debug("UNKNOWN node.type: {%d}", node->data.type);
     }
     // printf("node: %d, bufer : '%s'\n", node->data.type, bufer);
 }
+
 
 size_t seg_char_cnt(char *left, char *right, char c) {
     size_t cnt = 0;
@@ -209,17 +239,9 @@ int put_node_in_dotcode(ast_tree_elem_t *node, dot_code_t *dot_code, str_storage
 
 
     int node_idx = dot_new_node(dot_code, DEFAULT_NODE_PARS, label);
-    printf("label : [%s], node_idx: {%d}\n", label, node_idx);
+    // printf("label : [%s], node_idx: {%d}\n", label, node_idx);
 
-    if (node->data.type == NODE_VAR) {
-        dot_code->node_list[node_idx].pars.fillcolor = VAR_COLOR;
-    } else if (node->data.type == NODE_FUNC) {
-        dot_code->node_list[node_idx].pars.fillcolor = FUNC_COLOR;
-    } else if (node->data.type == NODE_NUM) {
-        dot_code->node_list[node_idx].pars.fillcolor = NUM_COLOR;
-    } else if (node->data.type == NODE_OP) {
-        dot_code->node_list[node_idx].pars.fillcolor = OP_COLOR;
-    }
+    dot_code->node_list[node_idx].pars.fillcolor = COLORS[node->data.type % COLORS_CNT];
 
     return node_idx;
 }
