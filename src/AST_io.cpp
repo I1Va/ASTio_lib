@@ -119,26 +119,26 @@ void ast_tree_file_dump(const char path[], ast_tree_t *tree, size_t indent) {
     }
 }
 
-void get_node_type(enum node_types *type, long double *value, char *name) {
-    if (sscanf(name, "%Lf", value)) {
-        *type = NODE_NUM;
-        return;
-    }
+// void get_node_type(enum node_types *type, long double *value, char *name) {
+//     if (sscanf(name, "%Lf", value)) {
+//         *type = NODE_NUM;
+//         return;
+//     }
 
-    if (strlen(name) == 1) {
-        *type = NODE_OP;
+//     if (strlen(name) == 1) {
+//         *type = NODE_OP;
 
-        for (size_t i = 0; i < VALID_OPERATIONS_CNT; i++) {
-            if (*name == VALID_OPERATIONS[i]) {
-                *value = i;
-                return;
-            }
-        }
-    }
+//         for (size_t i = 0; i < VALID_OPERATIONS_CNT; i++) {
+//             if (*name == VALID_OPERATIONS[i]) {
+//                 *value = i;
+//                 return;
+//             }
+//         }
+//     }
 
-    *type = NODE_VAR;
-    *value = 0;
-}
+//     *type = NODE_VAR;
+//     *value = 0;
+// }
 
 void get_node_string(char *bufer, ast_tree_elem_t *node) {
     if (node == NULL) {
@@ -151,34 +151,32 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
     //     node->data.type,
     //     node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval
     // );
-
-    if (node->data.type == NODE_OP) {
-        char res = '\0';
+    if (node->data.type == NODE_NUM) {
+        snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
+    } else if (node->data.type == NODE_FUNC || node->data.type == NODE_VAR) {
+        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
+    } else if (node->data.type == NODE_OP) {
         switch (node->data.value.ival) {
-            // printf("node: %d\n", node->data.value.ival);
             case AST_ADD: snprintf(bufer, BUFSIZ, "+"); break;
             case AST_DIV: snprintf(bufer, BUFSIZ, "/"); break;
             case AST_SUB: snprintf(bufer, BUFSIZ, "-"); break;
             case AST_MUL: snprintf(bufer, BUFSIZ, "*"); break;
             case AST_IF: snprintf(bufer, BUFSIZ, "if"); break;
             case AST_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
-            case AST_LESS: snprintf(bufer, BUFSIZ, "<"); break;
-            case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "<="); break;
-            case AST_MORE: snprintf(bufer, BUFSIZ, ">"); break;
-            case AST_MORE_EQ: snprintf(bufer, BUFSIZ, ">="); break;
-            case AST_EQ: snprintf(bufer, BUFSIZ, "=="); break;
-            default: res = '?'; break;
-        }
+            case AST_LESS: snprintf(bufer, BUFSIZ, "les"); break;
+            case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "leq"); break;
+            case AST_MORE: snprintf(bufer, BUFSIZ, "more"); break;
+            case AST_MORE_EQ: snprintf(bufer, BUFSIZ, "moq"); break;
+            case AST_EQ: snprintf(bufer, BUFSIZ, "equal"); break;
 
-    } else if (node->data.type == NODE_NUM) {
-        snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval);
-    } else if (node->data.type == NODE_VAR) {
-        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
-    } else if (node->data.type == NODE_FUNC) {
-        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
+            case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
+            case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
+            default: snprintf(bufer, BUFSIZ, "?"); break;
+        }
     } else {
-        snprintf(bufer, BUFSIZ, "?");
+        debug("UNKNOWN node.type: {%d}", node->data.type);
     }
+    // printf("node: %d, bufer : '%s'\n", node->data.type, bufer);
 }
 
 size_t seg_char_cnt(char *left, char *right, char c) {
@@ -207,10 +205,11 @@ int put_node_in_dotcode(ast_tree_elem_t *node, dot_code_t *dot_code, str_storage
 
     size_t label_sz = MAX_NODE_WRAP_SZ + strlen(bufer);
     char *label = get_new_str_ptr(storage, label_sz);
-    snprintf(label, label_sz, "{'%s' | {<L> (L)| <R> (R)}}", bufer);
-    // printf("label : [%s]\n", label);
+    snprintf(label, label_sz, "{'%s' | {<L> (L) | <R> (R)}}", bufer);
+
 
     int node_idx = dot_new_node(dot_code, DEFAULT_NODE_PARS, label);
+    printf("label : [%s], node_idx: {%d}\n", label, node_idx);
 
     if (node->data.type == NODE_VAR) {
         dot_code->node_list[node_idx].pars.fillcolor = VAR_COLOR;
