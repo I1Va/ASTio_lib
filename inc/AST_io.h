@@ -9,13 +9,38 @@ const dot_node_pars_t DEFAULT_NODE_PARS = {"Mrecord", "black", "#FFEEEE", "fille
 const dot_edge_pars_t DEFAULT_EDGE_PARS = {NULL, NULL, "#00FF00", 2};
 const dot_code_pars_t LIST_DOT_CODE_PARS = {"TB"};
 
-enum opers {
-    OP_ADD = 0,
-    OP_DIV = 1,
-    OP_MUL = 2,
-    OP_SUB = 3,
-    OP_DIVIDER = 4,
-    OP_IF = 5,
+enum ast_token_t {
+    AST_EOF = -1,
+    AST_EMPTY = 0,
+
+    AST_NUM = 1,
+
+    AST_ADD = 2,
+    AST_MUL = 3,
+    AST_SUB = 4,
+    AST_DIV = 5,
+    AST_POW = 6,
+
+    AST_O_BRACE = 7,
+    AST_C_BRACE = 8,
+    AST_O_FIG_BRACE = 9,
+    AST_C_FIG_BRACE = 10,
+
+    AST_EOL = 11, // '\n'
+
+    AST_SPACE = 12,
+
+
+    AST_ID = 13,
+    AST_IF = 14, // key_words
+    AST_WHILE = 15,
+    AST_DIVIDER = 16,
+
+    AST_MORE = 17,
+    AST_LESS = 18,
+    AST_MORE_EQ = 19,
+    AST_LESS_EQ = 20,
+    AST_EQ = 21,
 };
 
 enum node_types {

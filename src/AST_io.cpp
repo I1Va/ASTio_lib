@@ -155,12 +155,18 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
     if (node->data.type == NODE_OP) {
         char res = '\0';
         switch (node->data.value.ival) {
-            case OP_ADD: snprintf(bufer, BUFSIZ, "+"); break;
-            case OP_DIV: snprintf(bufer, BUFSIZ, "/"); break;
-            case OP_SUB: snprintf(bufer, BUFSIZ, "-"); break;
-            case OP_MUL: snprintf(bufer, BUFSIZ, "*"); break;
-            case OP_IF: snprintf(bufer, BUFSIZ, "if"); break;
-            case OP_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
+            // printf("node: %d\n", node->data.value.ival);
+            case AST_ADD: snprintf(bufer, BUFSIZ, "+"); break;
+            case AST_DIV: snprintf(bufer, BUFSIZ, "/"); break;
+            case AST_SUB: snprintf(bufer, BUFSIZ, "-"); break;
+            case AST_MUL: snprintf(bufer, BUFSIZ, "*"); break;
+            case AST_IF: snprintf(bufer, BUFSIZ, "if"); break;
+            case AST_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
+            case AST_LESS: snprintf(bufer, BUFSIZ, "<"); break;
+            case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "<="); break;
+            case AST_MORE: snprintf(bufer, BUFSIZ, ">"); break;
+            case AST_MORE_EQ: snprintf(bufer, BUFSIZ, ">="); break;
+            case AST_EQ: snprintf(bufer, BUFSIZ, "=="); break;
             default: res = '?'; break;
         }
 
