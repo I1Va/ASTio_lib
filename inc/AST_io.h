@@ -14,6 +14,7 @@ enum opers {
     OP_DIV = 1,
     OP_MUL = 2,
     OP_SUB = 3,
+    OP_DIVIDER = 4,
 };
 
 enum node_types {
