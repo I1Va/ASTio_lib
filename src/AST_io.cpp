@@ -222,6 +222,7 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         case NODE_FUNC_BODY: snprintf(bufer, BUFSIZ, "func_body"); break;
         case NODE_GLOBAL: snprintf(bufer, BUFSIZ, "GLOBAL_SPACE"); break;
         case NODE_CALL: snprintf(bufer, BUFSIZ, "call"); break;
+        case NODE_ELSE: snprintf(bufer, BUFSIZ, "else"); break;
         default: snprintf(bufer, BUFSIZ, "UNKNOWN_NODE_TYPE(%d)", node->data.type);
     }
 }
