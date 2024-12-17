@@ -153,62 +153,78 @@ void ast_tree_file_dump(const char path[], ast_tree_t *tree, size_t indent) {
 //     *value = 0;
 // }
 
+void get_NODE_OP_string(char *bufer, ast_tree_elem_t *node) {
+    assert(bufer);
+    if (node == NULL) {
+        snprintf(bufer, BUFSIZ, "NULL");
+        return;
+    }
+    if (node->data.type != NODE_OP) {
+        snprintf(bufer, BUFSIZ, "IT'S NOT NODE_OP");
+        return;
+    }
+
+    switch (node->data.value.ival) {
+        case AST_ADD: snprintf(bufer, BUFSIZ, "+"); break;
+        case AST_DIV: snprintf(bufer, BUFSIZ, "/"); break;
+        case AST_SUB: snprintf(bufer, BUFSIZ, "-"); break;
+        case AST_MUL: snprintf(bufer, BUFSIZ, "*"); break;
+        case AST_IF: snprintf(bufer, BUFSIZ, "if"); break;
+        case AST_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
+        case AST_LESS: snprintf(bufer, BUFSIZ, "les"); break;
+        case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "leq"); break;
+        case AST_MORE: snprintf(bufer, BUFSIZ, "more"); break;
+        case AST_MORE_EQ: snprintf(bufer, BUFSIZ, "moq"); break;
+        case AST_EQ: snprintf(bufer, BUFSIZ, "equal"); break;
+        case AST_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
+        case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
+        case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
+        case AST_COMMA: snprintf(bufer, BUFSIZ, ","); break;
+        default: snprintf(bufer, BUFSIZ, "OP_?(%d)", node->data.value.ival); break;
+    }
+}
+
+void get_NODE_TYPE_string(char *bufer, ast_tree_elem_t *node) {
+    assert(bufer);
+    if (node == NULL) {
+        snprintf(bufer, BUFSIZ, "NULL");
+        return;
+    }
+    if (node->data.type != NODE_TYPE) {
+        snprintf(bufer, BUFSIZ, "IT'S NOT NODE_TYPE");
+        return;
+    }
+
+    switch (node->data.value.ival) {
+        case AST_INT: snprintf(bufer, BUFSIZ, "int"); break;
+        case AST_FLOAT: snprintf(bufer, BUFSIZ, "float"); break;
+        default: snprintf(bufer, BUFSIZ, "TYPE_?(%d)", node->data.value.ival); break;
+    }
+}
+
 void get_node_string(char *bufer, ast_tree_elem_t *node) {
+    assert(bufer);
+
     if (node == NULL) {
         snprintf(bufer, BUFSIZ, "NULL");
         return;
     }
 
-    // snprintf(
-    //     bufer, BUFSIZ, "%d|%d|%Ld|%Lf|%s",
-    //     node->data.type,
-    //     node->data.value.ival, node->data.value.lval, node->data.value.fval, node->data.value.sval
-    // );
-    if (node->data.type == NODE_NUM) {
-        snprintf(bufer, BUFSIZ, "%Lg", node->data.value.fval);
-    } else if (node->data.type == NODE_FUNC || node->data.type == NODE_VAR) {
-        snprintf(bufer, BUFSIZ, "%s", node->data.value.sval);
-    } else if (node->data.type == NODE_OP) {
-        switch (node->data.value.ival) {
-            case AST_ADD: snprintf(bufer, BUFSIZ, "+"); break;
-            case AST_DIV: snprintf(bufer, BUFSIZ, "/"); break;
-            case AST_SUB: snprintf(bufer, BUFSIZ, "-"); break;
-            case AST_MUL: snprintf(bufer, BUFSIZ, "*"); break;
-            case AST_IF: snprintf(bufer, BUFSIZ, "if"); break;
-            case AST_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
-            case AST_LESS: snprintf(bufer, BUFSIZ, "les"); break;
-            case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "leq"); break;
-            case AST_MORE: snprintf(bufer, BUFSIZ, "more"); break;
-            case AST_MORE_EQ: snprintf(bufer, BUFSIZ, "moq"); break;
-            case AST_EQ: snprintf(bufer, BUFSIZ, "equal"); break;
-            case AST_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
-            case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
-            case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
-            case AST_COMMA: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
-            default: snprintf(bufer, BUFSIZ, "?"); break;
-        }
-    } else if (node->data.type == NODE_ASSIGN) {
-        snprintf(bufer, BUFSIZ, "=");
-    } else if (node->data.type == NODE_INIT) {
-        snprintf(bufer, BUFSIZ, "init");
-    } else if (node->data.type == NODE_TYPE) {
-        switch (node->data.value.ival) {
-            case AST_INT: snprintf(bufer, BUFSIZ, "int"); break;
-            case AST_FLOAT: snprintf(bufer, BUFSIZ, "float"); break;
-            default: snprintf(bufer, BUFSIZ, "unknown_type"); break;
-        }
-    } else if (node->data.type == NODE_FUNC_ID) {
-        snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval);
-    } else if (node->data.type == NODE_FUNC_BODY) {
-        snprintf(bufer, BUFSIZ, "func_body");
-    } else if (node->data.type == NODE_GLOBAL) {
-        snprintf(bufer, BUFSIZ, "GLOBAL_SPACE");
-    } else {
-        debug("UNKNOWN node.type: {%d}", node->data.type);
+    switch (node->data.type) {
+        case NODE_NUM: snprintf(bufer, BUFSIZ, "%Lg", node->data.value.fval); break;
+        case NODE_FUNC: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
+        case NODE_VAR: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
+        case NODE_OP: get_NODE_OP_string(bufer, node); break;
+        case NODE_ASSIGN: snprintf(bufer, BUFSIZ, "="); break;
+        case NODE_INIT: snprintf(bufer, BUFSIZ, "init"); break;
+        case NODE_TYPE: get_NODE_TYPE_string(bufer, node); break;
+        case NODE_FUNC_ID: snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval); break;
+        case NODE_FUNC_BODY: snprintf(bufer, BUFSIZ, "func_body"); break;
+        case NODE_GLOBAL: snprintf(bufer, BUFSIZ, "GLOBAL_SPACE"); break;
+        case NODE_CALL: snprintf(bufer, BUFSIZ, "call"); break;
+        default: snprintf(bufer, BUFSIZ, "UNKNOWN_NODE_TYPE(%d)", node->data.type);
     }
-    // printf("node: %d, bufer : '%s'\n", node->data.type, bufer);
 }
-
 
 size_t seg_char_cnt(char *left, char *right, char c) {
     size_t cnt = 0;
