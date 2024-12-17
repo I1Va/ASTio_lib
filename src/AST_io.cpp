@@ -184,6 +184,7 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
             case AST_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
             case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
             case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
+            case AST_COMMA: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
             default: snprintf(bufer, BUFSIZ, "?"); break;
         }
     } else if (node->data.type == NODE_ASSIGN) {
@@ -194,8 +195,8 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         switch (node->data.value.ival) {
             case AST_INT: snprintf(bufer, BUFSIZ, "int"); break;
             case AST_FLOAT: snprintf(bufer, BUFSIZ, "float"); break;
+            default: snprintf(bufer, BUFSIZ, "unknown_type"); break;
         }
-
     } else if (node->data.type == NODE_FUNC_ID) {
         snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval);
     } else if (node->data.type == NODE_FUNC_BODY) {
