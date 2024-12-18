@@ -34,7 +34,7 @@ enum ast_token_t {
     AST_ID = 13,
     AST_IF = 14, // key_words
     AST_WHILE = 15,
-    AST_DIVIDER = 16,
+    AST_SEMICOLON = 16,
 
     AST_MORE = 17,
     AST_LESS = 18,
@@ -69,6 +69,7 @@ enum node_types {
     NODE_CONTINUE = 16,
     NODE_WHILE = 17,
     NODE_FUNC_INIT = 18,
+    NODE_SEMICOLON = 19,
 };
 
 ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer);

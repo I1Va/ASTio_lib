@@ -132,27 +132,6 @@ void ast_tree_file_dump(const char path[], ast_tree_t *tree, size_t indent) {
     }
 }
 
-// void get_node_type(enum node_types *type, long double *value, char *name) {
-//     if (sscanf(name, "%Lf", value)) {
-//         *type = NODE_NUM;
-//         return;
-//     }
-
-//     if (strlen(name) == 1) {
-//         *type = NODE_OP;
-
-//         for (size_t i = 0; i < VALID_OPERATIONS_CNT; i++) {
-//             if (*name == VALID_OPERATIONS[i]) {
-//                 *value = i;
-//                 return;
-//             }
-//         }
-//     }
-
-//     *type = NODE_VAR;
-//     *value = 0;
-// }
-
 void get_NODE_OP_string(char *bufer, ast_tree_elem_t *node) {
     assert(bufer);
     if (node == NULL) {
@@ -170,7 +149,7 @@ void get_NODE_OP_string(char *bufer, ast_tree_elem_t *node) {
         case AST_SUB: snprintf(bufer, BUFSIZ, "-"); break;
         case AST_MUL: snprintf(bufer, BUFSIZ, "*"); break;
         case AST_IF: snprintf(bufer, BUFSIZ, "if"); break;
-        case AST_DIVIDER: snprintf(bufer, BUFSIZ, ";"); break;
+        case AST_SEMICOLON: snprintf(bufer, BUFSIZ, ";"); break;
         case AST_LESS: snprintf(bufer, BUFSIZ, "les"); break;
         case AST_LESS_EQ: snprintf(bufer, BUFSIZ, "leq"); break;
         case AST_MORE: snprintf(bufer, BUFSIZ, "more"); break;
@@ -229,6 +208,7 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         case NODE_BREAK: snprintf(bufer, BUFSIZ, "break"); break;
         case NODE_CONTINUE: snprintf(bufer, BUFSIZ, "continue"); break;
         case NODE_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
+        case NODE_SEMICOLON: snprintf(bufer, BUFSIZ, ";"); break;
         default: snprintf(bufer, BUFSIZ, "UNKNOWN_NODE_TYPE(%d)", node->data.type);
     }
 }
