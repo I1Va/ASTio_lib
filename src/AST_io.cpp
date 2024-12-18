@@ -216,13 +216,19 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         case NODE_VAR: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
         case NODE_OP: get_NODE_OP_string(bufer, node); break;
         case NODE_ASSIGN: snprintf(bufer, BUFSIZ, "="); break;
-        case NODE_INIT: snprintf(bufer, BUFSIZ, "init"); break;
+        case NODE_VAR_INIT: snprintf(bufer, BUFSIZ, "var init"); break;
+        case NODE_FUNC_INIT: snprintf(bufer, BUFSIZ, "func init"); break;
         case NODE_TYPE: get_NODE_TYPE_string(bufer, node); break;
         case NODE_FUNC_ID: snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval); break;
         case NODE_FUNC_BODY: snprintf(bufer, BUFSIZ, "func_body"); break;
         case NODE_GLOBAL: snprintf(bufer, BUFSIZ, "GLOBAL_SPACE"); break;
         case NODE_CALL: snprintf(bufer, BUFSIZ, "call"); break;
         case NODE_ELSE: snprintf(bufer, BUFSIZ, "else"); break;
+        case NODE_SCOPE: snprintf(bufer, BUFSIZ, "scope"); break;
+        case NODE_RETURN: snprintf(bufer, BUFSIZ, "return"); break;
+        case NODE_BREAK: snprintf(bufer, BUFSIZ, "break"); break;
+        case NODE_CONTINUE: snprintf(bufer, BUFSIZ, "continue"); break;
+        case NODE_WHILE: snprintf(bufer, BUFSIZ, "while"); break;
         default: snprintf(bufer, BUFSIZ, "UNKNOWN_NODE_TYPE(%d)", node->data.type);
     }
 }

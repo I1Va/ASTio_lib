@@ -46,7 +46,6 @@ enum ast_token_t {
     AST_FLOAT = 23,
     AST_ASSIGN = 24,
     AST_COMMA = 25,
-    AST_RETURN = 26,
     AST_ELSE = 27,
 };
 
@@ -58,12 +57,18 @@ enum node_types {
     NODE_FUNC = 4,
     NODE_TYPE = 5,
     NODE_ASSIGN = 6,
-    NODE_INIT = 7,
+    NODE_VAR_INIT = 7,
     NODE_FUNC_ID = 8,
     NODE_FUNC_BODY = 9,
     NODE_GLOBAL = 10,
     NODE_CALL = 11,
     NODE_ELSE = 12,
+    NODE_SCOPE = 13,
+    NODE_RETURN = 14,
+    NODE_BREAK = 15,
+    NODE_CONTINUE = 16,
+    NODE_WHILE = 17,
+    NODE_FUNC_INIT = 18,
 };
 
 ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer);
