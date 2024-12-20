@@ -15,16 +15,21 @@ enum ast_token_t {
 
     AST_NUM = 1,
 
+    AST_O_BRACE = 7,
+    AST_C_BRACE = 8,
+    AST_O_FIG_BRACE = 9,
+    AST_C_FIG_BRACE = 10,
+
     AST_ADD = 2,
     AST_MUL = 3,
     AST_SUB = 4,
     AST_DIV = 5,
     AST_POW = 6,
-
-    AST_O_BRACE = 7,
-    AST_C_BRACE = 8,
-    AST_O_FIG_BRACE = 9,
-    AST_C_FIG_BRACE = 10,
+    AST_MORE = 17,
+    AST_LESS = 18,
+    AST_MORE_EQ = 19,
+    AST_LESS_EQ = 20,
+    AST_EQ = 21,
 
     AST_EOL = 11, // '\n'
 
@@ -36,11 +41,6 @@ enum ast_token_t {
     AST_WHILE = 15,
     AST_SEMICOLON = 16,
 
-    AST_MORE = 17,
-    AST_LESS = 18,
-    AST_MORE_EQ = 19,
-    AST_LESS_EQ = 20,
-    AST_EQ = 21,
 
     AST_INT = 22,
     AST_FLOAT = 23,
@@ -52,6 +52,7 @@ enum ast_token_t {
     AST_RETURN = 28,
     AST_BREAK = 29,
     AST_CONTINUE = 30,
+    AST_STR_LIT = 31,
 };
 
 enum node_types {
@@ -74,6 +75,7 @@ enum node_types {
     NODE_SEMICOLON = 19,
     NODE_IF = 20,
     NODE_COMMA = 21,
+    NODE_STR_LIT = 22,
 };
 
 ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer);

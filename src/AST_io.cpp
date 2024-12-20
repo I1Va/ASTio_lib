@@ -159,6 +159,7 @@ void get_NODE_OP_string(char *bufer, ast_tree_elem_t *node) {
         case AST_NUM: snprintf(bufer, BUFSIZ, "%Ld", node->data.value.lval); break;
         case AST_ID: snprintf(bufer, BUFSIZ, "%s", node->data.value.sval); break;
         case AST_COMMA: snprintf(bufer, BUFSIZ, ","); break;
+        case NODE_STR_LIT: snprintf(bufer, BUFSIZ, "\"%s\"", node->data.value.sval); break;
         default: snprintf(bufer, BUFSIZ, "OP_?(%d)", node->data.value.ival); break;
     }
 }
