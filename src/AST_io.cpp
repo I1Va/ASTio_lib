@@ -198,7 +198,6 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         case NODE_FUNC_INIT: snprintf(bufer, BUFSIZ, "func init"); break;
         case NODE_TYPE: get_NODE_TYPE_string(bufer, node); break;
         case NODE_FUNC_ID: snprintf(bufer, BUFSIZ, "func_id: '%s'", node->data.value.sval); break;
-        case NODE_GLOBAL: snprintf(bufer, BUFSIZ, "GLOBAL_SPACE"); break;
         case NODE_CALL: snprintf(bufer, BUFSIZ, "call"); break;
         case NODE_ELSE: snprintf(bufer, BUFSIZ, "else"); break;
         case NODE_SCOPE: snprintf(bufer, BUFSIZ, "scope"); break;

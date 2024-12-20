@@ -58,7 +58,6 @@ enum node_types {
     NODE_ASSIGN = 6,
     NODE_VAR_INIT = 7,
     NODE_FUNC_ID = 8,
-    NODE_GLOBAL = 10,
     NODE_CALL = 11,
     NODE_ELSE = 12,
     NODE_SCOPE = 13,
