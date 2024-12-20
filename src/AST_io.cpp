@@ -209,6 +209,7 @@ void get_node_string(char *bufer, ast_tree_elem_t *node) {
         case NODE_SEMICOLON: snprintf(bufer, BUFSIZ, ";"); break;
         case NODE_IF: snprintf(bufer, BUFSIZ, "if"); break;
         case NODE_COMMA: snprintf(bufer, BUFSIZ, ","); break;
+        case NODE_STR_LIT: snprintf(bufer, BUFSIZ, "str_lit"); break;
 
         default: snprintf(bufer, BUFSIZ, "UNKNOWN_NODE_TYPE(%d)", node->data.type);
     }
