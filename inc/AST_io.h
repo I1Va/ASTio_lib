@@ -44,9 +44,14 @@ enum ast_token_t {
 
     AST_INT = 22,
     AST_FLOAT = 23,
-    AST_ASSIGN = 24,
-    AST_COMMA = 25,
+    AST_VOID = 24,
+    AST_ASSIGN = 25,
+    AST_COMMA = 26,
     AST_ELSE = 27,
+
+    AST_RETURN = 28,
+    AST_BREAK = 29,
+    AST_CONTINUE = 30,
 };
 
 enum node_types {
