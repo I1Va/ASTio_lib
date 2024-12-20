@@ -70,6 +70,7 @@ enum node_types {
     NODE_WHILE = 17,
     NODE_FUNC_INIT = 18,
     NODE_SEMICOLON = 19,
+    NODE_IF = 20,
 };
 
 ast_tree_elem_t *load_ast_tree(char *text, str_storage_t **storage, char *bufer);
